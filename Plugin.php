@@ -125,6 +125,38 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerNotificationRules()
+    {
+        \RainLab\Notify\Classes\Notifier::bindEvents([
+            'mall.customer.signedUp' => \OFFLINE\Mall\NotifyRules\Events\CustomerSignedUpEvent::class,
+        ]);
+
+        return [
+            'events'     => [
+                \OFFLINE\Mall\NotifyRules\Events\CustomerSignedUpEvent::class,
+            ],
+            'actions'    => [
+
+            ],
+            'conditions' => [
+            ],
+            'groups'     => [
+                'mall' => [
+                    'label' => 'Mall',
+                    'icon'  => 'icon-shopping-cart',
+                ],
+            ],
+//            'presets' => '$/rainlab/user/config/notify_presets.yaml',
+        ];
+    }
+
+    public function registerMailTemplates()
+    {
+        return [
+            'offline.mall::mail.customer.signedup',
+        ];
+    }
+
     public function registerMarkupTags()
     {
         return [
