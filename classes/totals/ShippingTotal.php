@@ -85,6 +85,7 @@ class ShippingTotal implements \JsonSerializable
 
         $method = $this->method;
         $price  = $method->priceInCurrencyInteger();
+        debug($price);
 
         // If there are special rates let's see if they
         // need to be applied.
