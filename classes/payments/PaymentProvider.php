@@ -103,4 +103,13 @@ abstract class PaymentProvider
 
         return $log;
     }
+
+    /**
+     * This method should return TRUE if the provider supports user payment profiles.
+     * The payment gateway must implement the updateUserProfile(), deleteUserProfile() and payFromProfile() methods if this method returns true.
+     */
+    public function supportsPaymentProfiles()
+    {
+        return false;
+    }
 }
