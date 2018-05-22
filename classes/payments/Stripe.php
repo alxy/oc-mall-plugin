@@ -196,6 +196,7 @@ class Stripe extends PaymentProvider
             $profile->customer = $customer;
             $profile->vendor_id = $this->identifier();
             $profile->is_primary = true;
+            $profile->card_brand = $newCard->getBrand();
 
         }
         $profile->setProfileData([
@@ -315,7 +316,7 @@ class Stripe extends PaymentProvider
             'card_number'             => ['required', 'regex:/^[0-9]*$/'],
             'CVV'                     => ['required', 'regex:/^[0-9]*$/'],
         ];
-        
+
         return Validator::make($data, $rules);
     }
 
