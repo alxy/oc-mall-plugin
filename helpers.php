@@ -33,8 +33,6 @@ if ( ! function_exists('format_money')) {
         $integers = floor($value);
         $decimals = ($value - $integers) * 100;
 
-//        $currency['format'] = 'EUR';
-
         return Twig::parse($currency['format'], [
             'price'    => $value,
             'integers' => $integers,
