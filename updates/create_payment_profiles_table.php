@@ -18,6 +18,8 @@ class CreatePaymentProfilesTable extends Migration
             $table->string('card_brand')->nullable();
             $table->string('card_last_four')->nullable();
             $table->string('card_country')->nullable();
+            $table->integer('card_expiry_month')->nullable();
+            $table->integer('card_expiry_year')->nullable();
             $table->boolean('is_primary')->default(false);
             $table->timestamps();
         });

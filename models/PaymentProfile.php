@@ -1,13 +1,16 @@
 <?php namespace OFFLINE\Mall\Models;
 
 use Model;
+use October\Rain\Database\Traits\Encryptable;
+use OFFLINE\Mall\Classes\Traits\HashIds;
 
 /**
  * PaymentProfile Model
  */
 class PaymentProfile extends Model
 {
-    use \October\Rain\Database\Traits\Encryptable;
+    use Encryptable;
+    use HashIds;
 
     /**
      * @var string The database table used by the model.
@@ -37,7 +40,8 @@ class PaymentProfile extends Model
     public $hasOne = [];
     public $hasMany = [];
     public $belongsTo = [
-        'customer' => [Customer::class]
+        'customer' => [Customer::class],
+        'payment_method' => [PaymentMethod::class]
     ];
     public $belongsToMany = [];
     public $morphTo = [];

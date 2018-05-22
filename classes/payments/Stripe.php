@@ -101,8 +101,10 @@ class Stripe extends PaymentProvider
      * Creates a user profile on the payment gateway. If the profile already exists the method should update it.
      *
      * @param Customer $customer
-     * @param array $data This should contain the following fields: 'first_name', 'last_name', 'expiry_date_month', 'expiry_date_year', 'card_number', 'CVV'
+     * @param array $data The card data
+     *
      * @return PaymentProfile
+     *
      * @throws ApplicationException
      * @throws ValidationException
      */
@@ -116,7 +118,7 @@ class Stripe extends PaymentProvider
             throw new ValidationException($validation);
         }
 
-        $formData = $this->makeCardData($data);
+        $formData = $data;
         $profile = $customer->payment_profile;
         $profileData = (array) $profile ? $profile->profile_data : [];
 
@@ -197,6 +199,9 @@ class Stripe extends PaymentProvider
             $profile->vendor_id = $this->identifier();
             $profile->is_primary = true;
             $profile->card_brand = $newCard->getBrand();
+            $profile->card_country = $newCard->getCountry();
+            $profile->card_expiry_month = $newCard->getExpiryMonth();
+            $profile->card_expiry_year = $newCard->getExpiryYear();
 
         }
         $profile->setProfileData([
@@ -309,33 +314,15 @@ class Stripe extends PaymentProvider
     protected function makeValidationObject($data)
     {
         $rules = [
-            'first_name'              => 'required',
-            'last_name'               => 'required',
-            'expiry_date_month'       => ['required', 'regex:/^[0-9]*$/'],
-            'expiry_date_year'        => ['required', 'regex:/^[0-9]*$/'],
-            'card_number'             => ['required', 'regex:/^[0-9]*$/'],
-            'CVV'                     => ['required', 'regex:/^[0-9]*$/'],
+            'firstName'              => 'required',
+            'lastName'               => 'required',
+            'expiryMonth'            => ['required', 'regex:/^[0-9]*$/'],
+            'expiryYear'             => ['required', 'regex:/^[0-9]*$/'],
+            'number'                 => ['required', 'regex:/^[0-9]*$/'],
+            'cvv'                    => ['required', 'regex:/^[0-9]*$/'],
         ];
 
         return Validator::make($data, $rules);
-    }
-
-    /**
-     * Extracts the relevant information from passed array
-     *
-     * @param $data array Form data
-     * @return array
-     */
-    protected function makeCardData($data)
-    {
-        return [
-            'firstName'   => array_get($data, 'first_name'),
-            'lastName'    => array_get($data, 'last_name'),
-            'number'      => array_get($data, 'card_number'),
-            'expiryMonth' => array_get($data, 'expiry_date_month'),
-            'expiryYear'  => array_get($data, 'expiry_date_year'),
-            'cvv'         => array_get($data, 'CVV'),
-        ];
     }
 
     /**

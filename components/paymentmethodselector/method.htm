@@ -23,7 +23,7 @@
                     {% if method.payment_provider %}
                         {% set path = __SELF__ ~ '::gateways/' ~ (method.payment_provider) %}
                         {% if partial(path) %}
-                            {% partial path %}
+                            {% partial path method=method %}
                         {% endif %}
                     {% endif %}
                 </div>
