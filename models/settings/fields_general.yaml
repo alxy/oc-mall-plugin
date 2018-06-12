@@ -34,6 +34,12 @@ fields:
         type: dropdown
         comment: offline.mall::lang.general_settings.account_page_comment
 
+    payment_profile_page:
+        label: Payment profile page
+        span: right
+        type: dropdown
+        comment: offline.mall::lang.general_settings.account_page_comment
+
     customizations:
         label: offline.mall::lang.general_settings.customizations
         comment: offline.mall::lang.general_settings.customizations_comment

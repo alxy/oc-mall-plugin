@@ -28,9 +28,10 @@ class MyAccount extends MallComponent
     public function getPageOptions()
     {
         return [
-            'orders'    => trans('offline.mall::lang.components.myAccount.pages.orders'),
-            'profile'   => trans('offline.mall::lang.components.myAccount.pages.profile'),
-            'addresses' => trans('offline.mall::lang.components.myAccount.pages.addresses'),
+            'orders'            => trans('offline.mall::lang.components.myAccount.pages.orders'),
+            'profile'           => trans('offline.mall::lang.components.myAccount.pages.profile'),
+            'addresses'         => trans('offline.mall::lang.components.myAccount.pages.addresses'),
+            'paymentprofiles'   => trans('offline.mall::lang.components.myAccount.pages.payment_profiles'),
         ];
     }
 
@@ -45,6 +46,8 @@ class MyAccount extends MallComponent
             $this->addComponent(CustomerProfile::class, 'customerProfile', []);
         } elseif ($this->currentPage === 'addresses') {
             $this->addComponent(AddressList::class, 'addressList', []);
+        } elseif ($this->currentPage === 'paymentprofiles') {
+            $this->addComponent(PaymentProfileList::class, 'paymentProfileList', []);
         }
     }
 

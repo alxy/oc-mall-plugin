@@ -1,0 +1,29 @@
+<table class="mall-table mall-payment-profile-list__table">
+    {% for profile in __SELF__.paymentProfiles %}
+        <tr>
+            <td>
+                {{ profile.vendor }}
+            </td>
+            <td>
+                {{ '************' ~ profile.card_last_four }}<br/>
+            </td>
+            <td>
+                Valid until: {{ profile.card_expiry_month ~ '/' ~ profile.card_expiry_year }}
+            </td>
+            <td>
+                {% if profile.is_primary %}<b>Primary</b>{% endif %}
+            </td>
+            <td class="mall-payment-profile-list__table-actions">
+                <a href="javascript:;" data-request="onMakePrimary" data-request-data="id: '{{ profile.hashId }}'">
+                    Make primary
+                </a>
+                {% if __SELF__.paymentProfiles.count > 1 %}
+                    <a href="javascript:;" data-request="onDelete" data-request-data="id: '{{ profile.hashId }}'"
+                       data-request-confirm="{{ 'mall.are_you_sure' | _ }}">
+                        {{ 'mall.delete' | _ }}
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

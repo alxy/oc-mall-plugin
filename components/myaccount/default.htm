@@ -12,6 +12,10 @@
                 {{ __SELF__.currentPage == 'addresses' ? 'mall-my-account__nav-item--active' : '' }}">
             <a href="{{ __SELF__.pageUrl('addresses') }}">{{ 'mall.addresses' | _ }}</a>
         </div>
+        <div class="mall-my-account__nav-item
+                {{ __SELF__.currentPage == 'paymentprofiles' ? 'mall-my-account__nav-item--active' : '' }}">
+            <a href="{{ __SELF__.pageUrl('paymentprofiles') }}">{{ 'mall.payment_profiles' | _ }}</a>
+        </div>
         <div class="mall-my-account__nav-item">
             <a href="javascript:;" data-request="onLogout" data-request-data="redirect: '/'">
                 {{ 'mall.session.logout' | _ }}

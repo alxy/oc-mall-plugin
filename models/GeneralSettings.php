@@ -27,6 +27,11 @@ class GeneralSettings extends Model
         return $this->getPages();
     }
 
+    public function getPaymentProfilePageOptions()
+    {
+        return $this->getPages();
+    }
+
     public function getCheckoutPageOptions()
     {
         return $this->getPages();

@@ -28,6 +28,8 @@ use OFFLINE\Mall\Components\DiscountApplier;
 use OFFLINE\Mall\Components\MyAccount;
 use OFFLINE\Mall\Components\OrdersList;
 use OFFLINE\Mall\Components\PaymentMethodSelector;
+use OFFLINE\Mall\Components\PaymentProfileForm;
+use OFFLINE\Mall\Components\PaymentProfileList;
 use OFFLINE\Mall\Components\Product as ProductComponent;
 use OFFLINE\Mall\Components\ShippingSelector;
 use OFFLINE\Mall\Components\SignUp;
@@ -80,6 +82,8 @@ class Plugin extends PluginBase
             CustomerProfile::class       => 'customerProfile',
             AddressList::class           => 'addressList',
             CurrencyPicker::class        => 'currencyPicker',
+            PaymentProfileList::class    => 'paymentProfileList',
+            PaymentProfileForm::class    => 'paymentProfileForm',
         ];
     }
 

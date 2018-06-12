@@ -47,4 +47,11 @@ class PaymentMethod extends Model
     {
         return static::first();
     }
+
+    public function supportsPaymentProfiles()
+    {
+        $gateway = app(PaymentGateway::class);
+
+        return $gateway->getProiderById($this->payment_provider)->supportsPaymentProfiles();
+    }
 }

@@ -6,6 +6,7 @@ use October\Rain\Exception\ValidationException;
 use OFFLINE\Mall\Classes\Payments\PaymentGateway;
 use OFFLINE\Mall\Classes\Payments\PaymentService;
 use OFFLINE\Mall\Models\Cart;
+use OFFLINE\Mall\Models\GeneralSettings;
 use OFFLINE\Mall\Models\Order;
 use OFFLINE\Mall\Models\PaymentMethod;
 use Validator;
@@ -29,7 +30,24 @@ class PaymentMethodSelector extends MallComponent
 
     public function defineProperties()
     {
-        return [];
+        return [
+            'saveProfile' => [
+                'type'  => 'checkbox',
+                'title' => 'offline.mall::lang.components.paymentMethodSelector.properties.saveProfile.title',
+            ],
+            'redirect' => [
+                'type'  => 'dropdown',
+                'title' => 'offline.mall::lang.components.paymentMethodSelector.properties.redirect.title',
+            ],
+        ];
+    }
+
+    public function getRedirectOptions()
+    {
+        return [
+            'shipping' => trans('offline.mall::lang.components.paymentMethodSelector.redirects.shipping'),
+            'account'  => trans('offline.mall::lang.components.paymentMethodSelector.redirects.account'),
+        ];
     }
 
     public function onRun()
@@ -50,7 +68,7 @@ class PaymentMethodSelector extends MallComponent
 
         // Handle payment profiles (allows for repeated payments)
         $provider = $gateway->provider;
-        if ($provider->supportsPaymentProfiles() && $data['saveProfile']) {
+        if ($provider->supportsPaymentProfiles() && $this->property('saveProfile', false)) {
             $user = Auth::getUser();
 
             $profile = $provider->updatePaymentProfile($user->customer, $data);
@@ -73,7 +91,7 @@ class PaymentMethodSelector extends MallComponent
         // Just to prevent any data leakage we store credit card information encrypted to the session.
         session()->put('mall.payment_method.data', encrypt(json_encode($data)));
 
-        return redirect()->to($this->getStepUrl('shipping'));
+        return redirect()->to($this->getRedirectUrl());
     }
 
     public function onChangeMethod()
@@ -131,5 +149,18 @@ class PaymentMethodSelector extends MallComponent
     protected function getStepUrl($step): string
     {
         return $this->controller->pageUrl($this->page->page->fileName, ['step' => $step]);
+    }
+
+    protected function getRedirectUrl()
+    {
+        $redirect = $this->property('redirect');
+        $url      = '';
+        if ($redirect === 'shipping') {
+            $url = $this->controller->pageUrl($this->page->page->fileName, ['step' => 'shipping']);
+        } elseif ($redirect === 'account') {
+            $url = $this->controller->pageUrl(GeneralSettings::get('account_page'), ['page' => 'paymentprofiles']);
+        }
+
+        return $url;
     }
 }
