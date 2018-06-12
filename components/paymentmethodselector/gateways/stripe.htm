@@ -1,3 +1,15 @@
+<div class="mall-two-fields mall-two-fields--firstname-lastname">
+    <div class="mall-form-control">
+        <label>{{ 'mall.payment_method.first_name' | _ }}</label>
+        <input type="text" name="payment_data[firstName]" value="{{ __SELF__.paymentData['firstName'] }}">
+        <div data-validate-for="firstName"></div>
+    </div>
+    <div class="mall-form-control">
+        <label>{{ 'mall.payment_method.last_name' | _ }}</label>
+        <input type="text" name="payment_data[lastName]" value="{{ __SELF__.paymentData['lastName'] }}">
+        <div data-validate-for="lastName"></div>
+    </div>
+</div>
 <div class="mall-two-fields mall-two-fields--number-cvv">
     <div class="mall-form-control">
         <label>{{ 'mall.payment_method.card_number' | _ }}</label>
@@ -21,4 +33,16 @@
         <input type="text" name="payment_data[expiryYear]" value="{{ __SELF__.paymentData['expiryYear'] }}">
         <div data-validate-for="expiryYear"></div>
     </div>
+</div>
+
+<div class="">
+    <label class="mall-checkbox">
+        <input class=""
+               type="checkbox" name="payment_data[saveProfile]"
+               value="1">
+        <span>
+            Save as profile
+        </span>
+    </label>
+    <div data-validate-for="saveProfile"></div>
 </div>

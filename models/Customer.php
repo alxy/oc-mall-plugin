@@ -25,5 +25,6 @@ class Customer extends Model
     ];
     public $hasMany = [
         'addresses' => Address::class,
+        'payment_profiles' => PaymentProfile::class
     ];
 }

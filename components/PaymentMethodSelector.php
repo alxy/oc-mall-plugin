@@ -48,6 +48,16 @@ class PaymentMethodSelector extends MallComponent
         $gateway       = app(PaymentGateway::class);
         $gateway->init($paymentMethod, $data);
 
+        // Handle payment profiles (allows for repeated payments)
+        $provider = $gateway->provider;
+        if ($provider->supportsPaymentProfiles() && $data['saveProfile']) {
+            $user = Auth::getUser();
+
+            $profile = $provider->updatePaymentProfile($user->customer, $data);
+            $profile->payment_method = $paymentMethod;
+            $profile->save();
+        }
+
         // If a order is present this is not a normal checkout flow but a
         // retry for a payment of an already existing order.
         if ($this->order) {
