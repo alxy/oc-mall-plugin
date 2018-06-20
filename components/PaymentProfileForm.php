@@ -1,8 +1,5 @@
 <?php namespace OFFLINE\Mall\Components;
 
-use Auth;
-use Cms\Classes\ComponentBase;
-
 class PaymentProfileForm extends MallComponent
 {
     public function componentDetails()
