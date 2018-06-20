@@ -8,8 +8,8 @@ class PaymentProfileForm extends MallComponent
     public function componentDetails()
     {
         return [
-            'name'        => 'PaymentProfileForm Component',
-            'description' => 'No description provided yet...'
+            'name'        => 'offline.mall::lang.components.paymentProfileForm.details.name',
+            'description' => 'offline.mall::lang.components.paymentProfileForm.details.description'
         ];
     }
 
@@ -18,32 +18,21 @@ class PaymentProfileForm extends MallComponent
         return [
             'redirect' => [
                 'type'  => 'dropdown',
-                'title' => 'offline.mall::lang.components.addressForm.properties.redirect.title',
-            ],
-            'set'      => [
-                'type'  => 'dropdown',
-                'title' => 'offline.mall::lang.components.addressForm.properties.set.title',
-            ],
+                'title' => 'offline.mall::lang.components.paymentProfileForm.properties.redirect.title',
+            ]
         ];
     }
 
     public function getRedirectOptions()
     {
         return [
-            'checkout' => trans('offline.mall::lang.components.addressForm.redirects.checkout'),
-            'account'  => trans('offline.mall::lang.components.addressForm.redirects.account'),
+            'checkout' => trans('offline.mall::lang.components.paymentProfileForm.redirects.checkout'),
+            'account'  => trans('offline.mall::lang.components.paymentProfileForm.redirects.account'),
         ];
     }
 
     public function init()
     {
         $this->addComponent(PaymentMethodSelector::class, 'paymentMethodSelector', ['saveProfile' => true, 'redirect' => 'account']);
-    }
-
-    public function onRun()
-    {
-//        if ( ! $this->setData()) {
-//            return $this->controller->run('404');
-//        }
     }
 }

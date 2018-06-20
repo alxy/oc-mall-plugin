@@ -520,6 +520,21 @@
                 'address_deleted' => 'Address deleted',
             ],
         ],
+        'paymentProfileList' => [
+            'details' => [
+                'name' => 'Payment profile list',
+                'description' => 'Displays a list of all payment profiles of a customer',
+            ],
+            'properties' => [
+            ],
+            'errors' => [
+                'profile_not_found' => 'The requested profile could not be found',
+                'cannot_delete_last_profile' => 'You cannot delete your last profile',
+            ],
+            'messages' => [
+                'profile_deleted' => 'Payment profile deleted',
+            ],
+        ],
         'ordersList' => [
             'details' => [
                 'name' => 'Orders list',
@@ -576,9 +591,21 @@
                 'name' => 'Payment method selector',
                 'description' => 'Displays a list of all available payment methods',
             ],
+            'properties' => [
+                'saveProfile' => [
+                    'title' => 'The payment data is used to create a payment profile for repeated payments',
+                ],
+                'redirect' => [
+                    'title' => 'Redirect (after save)',
+                ]
+            ],
             'errors' => [
                 'unavailable' => 'The selected payment method is not available for your order.',
             ],
+            'redirects' => [
+                'shipping' => 'Shipping page',
+                'account' => 'Account page',
+            ]
         ],
         'addressSelector' => [
             'details' => [
@@ -611,6 +638,21 @@
                 'billing' => 'Billing address',
                 'shipping' => 'Shipping address',
             ],
+        ],
+        'paymentProfileForm' => [
+            'details' => [
+                'name' => 'Payment profile form',
+                'description' => 'Displays a form to create a payment profile',
+            ],
+            'properties' => [
+                'redirect' => [
+                    'title' => 'Redirect (after save)',
+                ],
+            ],
+            'redirects' => [
+                'checkout' => 'Checkout page',
+                'account' => 'Account page',
+            ]
         ],
         'signup' => [
             'details' => [

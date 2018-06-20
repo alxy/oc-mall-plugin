@@ -14,8 +14,8 @@ class PaymentProfileList extends MallComponent
     public function componentDetails()
     {
         return [
-            'name'        => 'PaymentProfileList Component',
-            'description' => 'No description provided yet...'
+            'name'        => 'offline.mall::lang.components.paymentProfileList.details.name',
+            'description' => 'offline.mall::lang.components.paymentProfileList.details.description'
         ];
     }
 
@@ -39,17 +39,17 @@ class PaymentProfileList extends MallComponent
         $profile  = PaymentProfile::find($id);
 
         if ( ! $profile) {
-            throw new ValidationException(['id' => trans('offline.mall::lang.components.addressList.errors.address_not_found')]);
+            throw new ValidationException(['id' => trans('offline.mall::lang.components.paymentProfileList.errors.profile_not_found')]);
         }
 
         if (PaymentProfile::applyCustomer($customer)->count() <= 1) {
-            throw new ValidationException(['id' => trans('offline.mall::lang.components.addressList.errors.cannot_delete_last_address')]);
+            throw new ValidationException(['id' => trans('offline.mall::lang.components.paymentProfileList.errors.cannot_delete_last_profile')]);
         }
 
         $profile->delete();
         $this->paymentProfiles = Auth::getUser()->load('customer')->customer->payment_profiles;
 
-        Flash::success(trans('offline.mall::lang.components.addressList.messages.address_deleted'));
+        Flash::success(trans('offline.mall::lang.components.paymentProfileList.messages.profile_deleted'));
 
         return [
             '.mall-payment-profile-list__list' => $this->renderPartial($this->alias . '::list'),
@@ -63,13 +63,13 @@ class PaymentProfileList extends MallComponent
         $profile  = PaymentProfile::find($id);
 
         if ( ! $profile) {
-            throw new ValidationException(['id' => trans('offline.mall::lang.components.addressList.errors.address_not_found')]);
+            throw new ValidationException(['id' => trans('offline.mall::lang.components.paymentProfileList.errors.profile_not_found')]);
         }
 
         $profile->makePrimary();
         $this->paymentProfiles = Auth::getUser()->load('customer')->customer->payment_profiles;
 
-        Flash::success(trans('offline.mall::lang.components.addressList.messages.address_deleted'));
+        Flash::success(trans('offline.mall::lang.components.paymentProfileList.messages.profile_deleted'));
 
         return [
             '.mall-payment-profile-list__list' => $this->renderPartial($this->alias . '::list'),
