@@ -38,6 +38,7 @@ class PaymentMethodSelector extends MallComponent
             'redirect' => [
                 'type'  => 'dropdown',
                 'title' => 'offline.mall::lang.components.paymentMethodSelector.properties.redirect.title',
+                'default' => 'shipping'
             ],
         ];
     }
