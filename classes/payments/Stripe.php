@@ -67,6 +67,7 @@ class Stripe extends PaymentProvider
 
         $data               = (array)$response->getData();
         $result->successful = $response->isSuccessful();
+        $result->order      = $this->order;
 
         if ($result->successful) {
             $payment                               = $this->logSuccessfulPayment($data, $response);
