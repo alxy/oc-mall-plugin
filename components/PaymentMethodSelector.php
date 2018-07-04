@@ -1,6 +1,7 @@
 <?php namespace OFFLINE\Mall\Components;
 
 use Auth;
+use Cms\Classes\Page;
 use Illuminate\Contracts\Encryption\DecryptException;
 use October\Rain\Exception\ValidationException;
 use OFFLINE\Mall\Classes\Payments\PaymentGateway;
@@ -36,8 +37,9 @@ class PaymentMethodSelector extends MallComponent
                 'title' => 'offline.mall::lang.components.paymentMethodSelector.properties.saveProfile.title',
             ],
             'redirect' => [
-                'type'  => 'dropdown',
+                'type'  => 'string',
                 'title' => 'offline.mall::lang.components.paymentMethodSelector.properties.redirect.title',
+                'description' => 'Valid values are "shipping", "account" or any valid page base name.',
                 'default' => 'shipping'
             ],
         ];
@@ -45,11 +47,16 @@ class PaymentMethodSelector extends MallComponent
 
     public function getRedirectOptions()
     {
-        return [
-            'shipping' => trans('offline.mall::lang.components.paymentMethodSelector.redirects.shipping'),
-            'account'  => trans('offline.mall::lang.components.paymentMethodSelector.redirects.account'),
-        ];
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
+
+//    public function getRedirectOptions()
+//    {
+//        return [
+//            'shipping' => trans('offline.mall::lang.components.paymentMethodSelector.redirects.shipping'),
+//            'account'  => trans('offline.mall::lang.components.paymentMethodSelector.redirects.account'),
+//        ];
+//    }
 
     public function onRun()
     {
@@ -155,11 +162,12 @@ class PaymentMethodSelector extends MallComponent
     protected function getRedirectUrl()
     {
         $redirect = $this->property('redirect');
-        $url      = '';
         if ($redirect === 'shipping') {
             $url = $this->controller->pageUrl($this->page->page->fileName, ['step' => 'shipping']);
         } elseif ($redirect === 'account') {
             $url = $this->controller->pageUrl(GeneralSettings::get('account_page'), ['page' => 'paymentprofiles']);
+        } else {
+            $url = $redirect; //$this->controller->pageUrl($redirect);
         }
 
         return $url;

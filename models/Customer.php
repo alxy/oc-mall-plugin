@@ -22,6 +22,8 @@ class Customer extends Model
     public $table = 'offline_mall_customers';
     public $belongsTo = [
         'user' => User::class,
+        'default_shipping_address' => [Address::class],
+        'default_billing_address' => [Address::class],
     ];
     public $hasMany = [
         'addresses' => Address::class,
