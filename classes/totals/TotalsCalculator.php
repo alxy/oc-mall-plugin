@@ -268,7 +268,7 @@ class TotalsCalculator
      */
     protected function applyTotalDiscounts($total): ?float
     {
-        $nonCodeTriggers = Discount::whereIn('trigger', ['total', 'product'])
+        $nonCodeTriggers = Discount::whereIn('trigger', ['total', 'product', 'category'])
                                    ->where(function ($q) {
                                        $q->whereNull('expires')
                                          ->orWhere('expires', '>', Carbon::now());

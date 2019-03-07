@@ -40,12 +40,43 @@ fields:
     _total_to_reach:
         label: 'offline.mall::lang.discounts.total_to_reach'
         oc.commentPosition: ''
-        span: auto
+        span: right
         trigger:
             action: show
             field: trigger
             condition: value[total]
         type: mall.price
+    code:
+        label: 'offline.mall::lang.discounts.code'
+        oc.commentPosition: ''
+        span: right
+        trigger:
+            action: show
+            field: trigger
+            condition: value[code]
+        type: text
+    product_id:
+        label: 'offline.mall::lang.common.product'
+        oc.commentPosition: ''
+        nameFrom: name
+        descriptionFrom: description
+        span: right
+        type: dropdown
+        trigger:
+            action: show
+            field: trigger
+            condition: value[product]
+    category_id:
+        label: 'offline.mall::lang.common.category'
+        oc.commentPosition: ''
+        nameFrom: name
+        descriptionFrom: description
+        span: right
+        type: dropdown
+        trigger:
+            action: show
+            field: trigger
+            condition: value[category]
     rate:
         label: 'offline.mall::lang.discounts.rate'
         oc.commentPosition: ''
@@ -60,15 +91,7 @@ fields:
         oc.commentPosition: ''
         span: left
         type: text
-    code:
-        label: 'offline.mall::lang.discounts.code'
-        oc.commentPosition: ''
-        span: auto
-        trigger:
-            action: show
-            field: trigger
-            condition: value[code]
-        type: text
+
     _alternate_price:
         label: 'offline.mall::lang.discounts.alternate_price'
         oc.commentPosition: ''
@@ -87,17 +110,6 @@ fields:
             field: type
             condition: value[shipping]
         type: text
-    product_id:
-        label: 'offline.mall::lang.common.product'
-        oc.commentPosition: ''
-        nameFrom: name
-        descriptionFrom: description
-        span: auto
-        type: dropdown
-        trigger:
-            action: show
-            field: trigger
-            condition: value[product]
     shipping_guaranteed_days_to_delivery:
         label: 'offline.mall::lang.discounts.shipping_guaranteed_days_to_delivery'
         oc.commentPosition: ''

@@ -410,6 +410,7 @@
             'total'   => 'Order total is reached',
             'code'    => 'Discount code is entered',
             'product' => 'A specific product is present in the cart',
+            'category' => 'A product of a specific category is present in the cart',
         ],
         'validation'                           => [
             'empty'               => 'Enter a promo code.',

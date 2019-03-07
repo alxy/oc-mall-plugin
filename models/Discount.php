@@ -18,10 +18,11 @@ class Discount extends Model
         'expires'                              => 'nullable|date',
         'number_of_usages'                     => 'nullable|numeric',
         'max_number_of_usages'                 => 'nullable|numeric',
-        'trigger'                              => 'in:total,code,product',
+        'trigger'                              => 'in:total,code,product,category',
         'types'                                => 'in:fixed_amount,rate,alternate_price,shipping',
         'code'                                 => 'required_if:trigger,code',
         'product'                              => 'required_if:trigger,product',
+        'category'                             => 'required_if:trigger,category',
         'type'                                 => 'in:fixed_amount,rate,alternate_price,shipping',
         'rate'                                 => 'required_if:type,rate|nullable|numeric',
         'shipping_description'                 => 'required_if:type,shipping',
@@ -42,6 +43,7 @@ class Discount extends Model
     ];
     public $belongsTo = [
         'product' => [Product::class],
+        'category' => [Category::class]
     ];
     public $belongsToMany = [
         'carts' => [Cart::class],
@@ -59,6 +61,10 @@ class Discount extends Model
             $discount->code = strtoupper($discount->code);
             if ($discount->trigger !== 'product') {
                 $discount->product_id = null;
+            }
+
+            if ($discount->trigger !== 'category') {
+                $discount->category_id = null;
             }
         });
     }
@@ -95,6 +101,11 @@ class Discount extends Model
 
     public function getProductIdOptions()
     {
-        return [null => trans('offline.mall::lang.common.none')] + Product::get()->pluck('name', 'id')->toArray();
+        return [null => trans('offline.mall::lang.common.none')] + Product::lists('name', 'id');
+    }
+
+    public function getCategoryIdOptions()
+    {
+        return [null => trans('offline.mall::lang.common.none')] + Category::lists('name', 'id');
     }
 }

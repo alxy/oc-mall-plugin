@@ -49,22 +49,21 @@ class DiscountApplier
             return null;
         }
 
-        if ($this->reducedTotalIsFixed === true) {
-            return false;
-        }
-
         $savings = 0;
+        $discountableProducts = $this->getDiscountableProducts($discount);
+
         if ($discount->type === 'alternate_price') {
-            $this->reducedTotal        = $discount->alternatePrice()->integer;
-            $this->reducedTotalIsFixed = true;
+            // Here we set each product's total to the specified alternate price
+            $this->reducedTotal        = is_null($discountableProducts) ?
+                                        $discount->alternatePrice()->integer :
+                                        $discountableProducts->count() * $discount->alternatePrice()->integer;
             $savings                   = $this->total - $this->reducedTotal;
         }
 
         if ($discount->type === 'shipping') {
+            // Shipping price discounts always apply to the entire cart
             $this->reducedTotal        = $discount->shippingPrice()->integer;
-            $savings                   = $this->cart->shipping_method->price()->integer -
-                $discount->shippingPrice()->integer;
-            $this->reducedTotalIsFixed = true;
+            $savings                   = $this->cart->shipping_method->price()->integer - $discount->shippingPrice()->integer;
         }
 
         if ($discount->type === 'fixed_amount') {
@@ -73,6 +72,10 @@ class DiscountApplier
         }
 
         if ($discount->type === 'rate') {
+            $discountableTotal = 0;
+            foreach ($discountableProducts as $discountableProduct) {
+
+            }
             $savings            = $this->total * ($discount->rate / 100);
             $this->reducedTotal -= $savings;
         }
@@ -118,11 +121,44 @@ class DiscountApplier
             return true;
         }
 
+        if ($discount->trigger === 'category' && $this->productWithCategoryIsInCart($discount->category_id)) {
+            return true;
+        }
+
         return $discount->trigger === 'code';
     }
 
     private function productIsInCart(int $productId): bool
     {
         return $this->cart->products->pluck('product_id')->contains($productId);
+    }
+
+    private function productWithCategoryIsInCart(int $categoryId): bool
+    {
+        return $this->cart->products()->whereHas('product.categories', function ($q) use ($categoryId) {
+            $q->where('category_id', $categoryId);
+        })->count() > 0;
+    }
+
+    /**
+     * Get all products in cart that are applicable to the discount.
+     * If null, the discount applies to the entire cart.
+     *
+     * @param Discount $discount
+     * @return null|Collection
+     */
+    private function getDiscountableProducts(Discount $discount)
+    {
+        if ($discount->trigger === 'product') {
+            return $this->cart->products()->where('product_id', $discount->product_id)->get();
+        }
+
+        if ($discount->trigger === 'category') {
+            return $this->cart->products()->whereHas('product.categories', function ($q) use ($discount) {
+                $q->where('category_id', $discount->category_id);
+            })->get();
+        }
+
+        return null;
     }
 }

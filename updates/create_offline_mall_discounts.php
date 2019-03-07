@@ -13,6 +13,7 @@ class CreateOfflineMallDiscounts extends Migration
             $table->string('name');
             $table->string('code')->nullable();
             $table->integer('product_id')->nullable();
+            $table->integer('category_id')->nullable();
             $table->string('type')->default('Rate');
             $table->string('trigger')->default('Code');
             $table->integer('rate')->nullable()->unsigned();
